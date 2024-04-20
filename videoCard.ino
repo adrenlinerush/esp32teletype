@@ -23,12 +23,12 @@ int ACK = 16;
 fabgl::VGATextController VGAText;
 fabgl::Terminal Term;
 
-int ready = 0;
+//int ready = 0;
 
 void IRAM_ATTR receive_vcbits() {
 //void receive_vcbits() {
   //if (ready == 0) {
-    ready = 1;
+    //ready = 1;
     unsigned int data = 0;
     for (int d = 0; d < 8; d+=1) {
       int bit = digitalRead(DATA[d]) ? 1 : 0;
@@ -36,7 +36,7 @@ void IRAM_ATTR receive_vcbits() {
     }
     Term.write(data);
   
-    digitalWrite(ACK, HIGH);
+    //digitalWrite(ACK, LOW);
   /*} else if (digitalRead(CLOCK) == HIGH) {
     ready = 0;
     digitalWrite(ACK, LOW);
@@ -58,6 +58,7 @@ void setup() {
 
   pinMode(CLOCK, INPUT);
   attachInterrupt(digitalPinToInterrupt(CLOCK), receive_vcbits, RISING);
+  //digitalWrite(ACK, HIGH);
 
   Term.write("TELETYPE READY");
   Term.write(10);
@@ -67,9 +68,9 @@ void setup() {
 void loop() {
   /*if ((digitalRead(CLOCK) == HIGH) && (ready == 0)) {
     receive_vcbits();
-  } else*/ if ((digitalRead(CLOCK) == LOW) && (ready == 1)) {
+  } else if ((digitalRead(CLOCK) == HIGH) && (ready == 1)) {
     ready = 0;
-    digitalWrite(ACK, LOW);
+    digitalWrite(ACK, HIGH);
   } 
-  //vTaskDelay(100);
+  //vTaskDelay(100);*/
 }
