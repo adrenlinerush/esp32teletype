@@ -30,7 +30,7 @@ void IRAM_ATTR receive_vcbits() {
   //if (ready == 0) {
     //ready = 1;
     unsigned int data = 0;
-    for (int d = 0; d < 8; d+=1) {
+    for (int d = 8; d >= 0; d--) {
       int bit = digitalRead(DATA[d]) ? 1 : 0;
       data = (data << 1) + bit;
     }
