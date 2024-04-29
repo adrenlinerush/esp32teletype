@@ -18,6 +18,12 @@ SHIFT   = %00000010
   .org $8000
 
 RESET:
+
+    LDA #$00 ; set PTR and FLAGS
+    STA KBD_FLAGS
+    STA KBD_WPTR
+    STA KBD_RPTR
+    
     LDA #$ff ; Set VIA Port B to output
     STA DDRB
 
@@ -68,7 +74,7 @@ KBD_IRQ:
     PHA
    
 
-    LDX #$02 ; try delaying so I get correct scan code
+    LDX #$03 ; try delaying so I get correct scan code
     JSR DELAY_REG_X_CYCLES
     
     LDX PORTA
@@ -221,7 +227,7 @@ KEYMAP_SHIFTED:
   .byte $00,"CXDE$#",$00,$00," VFTR%",$00
   .byte $00,"NBHGY^",$00,$00,$00,"MJU&*",$00
   .byte $00,"<KIO)(",$00,$00,">?L:P_",$00
-  .byte $00,$00,"'",$00,"{+",$00,$00,$00,$00,$0A,"}",$00,"?",$00,$00
+  .byte $00,$00,'"',$00,"{+",$00,$00,$00,$00,$0A,"}",$00,"?",$00,$00
   .byte $00,$00,$00,$00,$00,$00,$08,$00,$00,"1",$00,"47",$00,$00,$00 ; Nubmer Pad + BSP Fix Special Keys
   .byte "0.2568",$1b,$00,$00,"+3-*9",$00,$00                         ; Number Pad
   .byte $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
