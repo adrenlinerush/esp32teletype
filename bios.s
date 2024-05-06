@@ -3,23 +3,23 @@ PORTA = $7C01
 DDRB = $7C02
 DDRA = $7C03
 
-PCR = $700C
-IFR = $700D
-IER = $700E
+PCR = $7C0C
+IFR = $7C0D
+IER = $7C0E
 
 KBD = $0200
-KBD_WPTR = $0000
-KBD_RPTR = $0001
-KBD_FLAGS = $0002
+KBD_WPTR = $00
+KBD_RPTR = $01
+KBD_FLAGS = $02
 
 RELEASE = %00000001
 SHIFT   = %00000010
 
-CURSOR_X = $0003
-CURSOR_Y = $0005
-FG_COLOR = $0007
-BG_COLOR = $0009
-TEXT_FLAGS = $000A
+CURSOR_X = $03
+CURSOR_Y = $05
+FG_COLOR = $07
+BG_COLOR = $09
+TEXT_FLAGS = $0A
 
 BOLD   = %00000001
 DIM    = %00000010
@@ -38,6 +38,11 @@ RESET:
     STA KBD_FLAGS
     STA KBD_WPTR
     STA KBD_RPTR
+
+    ; LDA #$01
+    ; PCR PCR
+    LDA #$82
+    STA IER
     
     LDA #$ff ; Set VIA Port B to output
     STA DDRB
@@ -66,6 +71,8 @@ KEY_PRESSED:
     LDA KBD, X
     CMP #$0A ; enter
     BEQ KEY_ENTER
+    CMP #$08 ; backpace
+    BEQ KEY_BKSP
     JMP CONTINUE
 
 KEY_ENTER:
@@ -74,6 +81,11 @@ KEY_ENTER:
     ; INC TEXT_FLAGS
     ; JSR SET_TEXT
     JMP LOOP
+
+KEY_BKSP:
+    JSR ECHO ; Send Backspace
+    JSR SEND_ESC_SEQ ; Erase to end of screen
+    LDA #$4A ; J 
 
 CONTINUE:  
     JSR ECHO
