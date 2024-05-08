@@ -1,4 +1,4 @@
-LIBS = /home/austin/src/esp32vga32/FabGL/src /home/austin/src/esp32VideoCard/6502TeletypeFasteInterrupt.S
+LIBS = /home/austin/src/esp32vga32/FabGL/src /home/austin/src/esp32VideoCard/highint5.S
 SKETCH = /home/austin/src/esp32VideoCard/videoCardAssyIRQ.ino
 UPLOAD_PORT = /dev/ttyUSB0
 CHIP = esp32
