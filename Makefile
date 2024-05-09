@@ -1,4 +1,5 @@
-LIBS = /home/austin/src/esp32vga32/FabGL/src
+LIBS = /home/austin/src/esp32vga32/FabGL/src 
+#EXTRA_SRCS = /home/austin/src/esp32VideoCard/highint5.S
 SKETCH = /home/austin/src/esp32VideoCard/videoCard.ino
 UPLOAD_PORT = /dev/ttyUSB0
 CHIP = esp32
